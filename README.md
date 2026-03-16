@@ -205,8 +205,6 @@ Dan ini tampilan terbaru di supabase.
 <img width="1366" height="768" alt="image" src="https://github.com/user-attachments/assets/6b2478de-0392-4b4d-993d-44a5fc9c1470" />
 
 
-<img width="1366" height="768" alt="image" src="https://github.com/user-attachments/assets/b82aa170-452d-4d26-ae94-7c63c5114f4b" />
-
 
 
 
