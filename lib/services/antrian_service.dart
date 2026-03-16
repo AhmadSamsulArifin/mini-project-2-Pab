@@ -5,13 +5,9 @@ class AntrianService {
   final SupabaseClient _supabase = Supabase.instance.client;
 
   Future<List<DataAntrian>> ambilSemuaAntrian() async {
-    final user = _supabase.auth.currentUser;
-    if (user == null) return [];
-
     final response = await _supabase
         .from('antrian')
         .select()
-        .eq('user_id', user.id)
         .order('id', ascending: true);
 
     return (response as List)
@@ -21,7 +17,9 @@ class AntrianService {
 
   Future<void> tambahAntrian(DataAntrian data) async {
     final user = _supabase.auth.currentUser;
-    if (user == null) throw Exception('User belum login');
+    if (user == null) {
+      throw Exception('User belum login');
+    }
 
     await _supabase.from('antrian').insert(
           data.salinDengan(userId: user.id).toMap(),
@@ -29,24 +27,13 @@ class AntrianService {
   }
 
   Future<void> ubahAntrian(DataAntrian data) async {
-    final user = _supabase.auth.currentUser;
-    if (user == null) throw Exception('User belum login');
-
     await _supabase
         .from('antrian')
-        .update(data.salinDengan(userId: user.id).toMap())
-        .eq('id', data.id as Object)
-        .eq('user_id', user.id);
+        .update(data.toMap())
+        .eq('id', data.id as Object);
   }
 
   Future<void> hapusAntrian(int id) async {
-    final user = _supabase.auth.currentUser;
-    if (user == null) throw Exception('User belum login');
-
-    await _supabase
-        .from('antrian')
-        .delete()
-        .eq('id', id)
-        .eq('user_id', user.id);
+    await _supabase.from('antrian').delete().eq('id', id);
   }
 }
