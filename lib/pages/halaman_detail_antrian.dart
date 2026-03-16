@@ -17,23 +17,27 @@ class HalamanDetailAntrian extends StatelessWidget {
     required IconData ikon,
     required String judul,
     required String isi,
+    required BuildContext context,
   }) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10),
+    return Container(
+      margin: const EdgeInsets.only(bottom: 12),
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.08),
+        borderRadius: BorderRadius.circular(14),
+      ),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            width: 38,
-            height: 38,
-            alignment: Alignment.center,
+            width: 42,
+            height: 42,
             decoration: BoxDecoration(
-              color: Colors.grey[200],
-              borderRadius: BorderRadius.circular(10),
+              color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.12),
+              borderRadius: BorderRadius.circular(12),
             ),
             child: Icon(
               ikon,
-              size: 20,
+              color: Theme.of(context).colorScheme.primary,
             ),
           ),
           const SizedBox(width: 12),
@@ -45,16 +49,14 @@ class HalamanDetailAntrian extends StatelessWidget {
                   judul,
                   style: const TextStyle(
                     fontSize: 12,
-                    color: Colors.black54,
-                    fontWeight: FontWeight.w600,
                   ),
                 ),
                 const SizedBox(height: 4),
                 Text(
                   isi,
                   style: const TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w700,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
               ],
@@ -67,83 +69,84 @@ class HalamanDetailAntrian extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final nomor = data.nomorAntrian == 0
+        ? '-'
+        : _formatNomor(data.nomorAntrian);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Detail Antrian'),
+        centerTitle: true,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(20),
         child: Center(
           child: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 900),
+            constraints: const BoxConstraints(maxWidth: 650),
             child: Card(
-              elevation: 2,
+              elevation: 3,
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(14),
+                borderRadius: BorderRadius.circular(16),
               ),
               child: Padding(
-                padding: const EdgeInsets.all(18),
+                padding: const EdgeInsets.all(20),
                 child: Column(
-                  mainAxisSize: MainAxisSize.min,
                   children: [
-                    // Header nomor antrian
                     Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 14,
-                        vertical: 10,
-                      ),
+                      width: double.infinity,
+                      padding: const EdgeInsets.all(20),
                       decoration: BoxDecoration(
-                        color: Colors.green[50],
-                        borderRadius: BorderRadius.circular(12),
-                        border: Border.all(
-                          color: Colors.green.shade200,
-                        ),
+                        color: Colors.green.withValues(alpha: 0.12),
+                        borderRadius: BorderRadius.circular(16),
                       ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
+                      child: Column(
                         children: [
-                          const Icon(Icons.confirmation_number),
-                          const SizedBox(width: 8),
+                          const Icon(
+                            Icons.confirmation_number,
+                            size: 34,
+                            color: Colors.green,
+                          ),
+                          const SizedBox(height: 8),
+                          const Text(
+                            'Nomor Antrian',
+                            style: TextStyle(fontSize: 14),
+                          ),
+                          const SizedBox(height: 4),
                           Text(
-                            'Nomor ${_formatNomor(data.nomorAntrian)}',
+                            nomor,
                             style: const TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w800,
+                              fontSize: 30,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.green,
                             ),
                           ),
                         ],
                       ),
                     ),
-
-                    const SizedBox(height: 18),
-                    const Divider(height: 0),
-                    const SizedBox(height: 6),
-
+                    const SizedBox(height: 20),
                     _itemDetail(
                       ikon: Icons.person,
                       judul: 'Nama',
                       isi: data.nama,
+                      context: context,
                     ),
-                    const Divider(height: 0),
-
                     _itemDetail(
                       ikon: Icons.credit_card,
                       judul: 'NIK',
                       isi: data.nik,
+                      context: context,
                     ),
-                    const Divider(height: 0),
-
                     _itemDetail(
                       ikon: Icons.description,
                       judul: 'Jenis Pelayanan',
                       isi: data.jenisPelayanan,
+                      context: context,
                     ),
-                    const Divider(height: 0),
-
                     _itemDetail(
                       ikon: Icons.phone,
                       judul: 'No HP',
                       isi: data.noHp,
+                      context: context,
                     ),
                   ],
                 ),
